@@ -2,7 +2,8 @@
 <feature
       id="FontsFeature"
       label="FontsFeature"
-      version="1.0.4.1">
+      version="1.0.4.1"
+      plugin="Fonts">
 
    <description url="http://www.example.com/description">
       Easily control editor Fonts size
