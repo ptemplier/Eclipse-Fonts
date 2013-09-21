@@ -15,10 +15,6 @@ package fonts;
 
 import java.math.BigDecimal;
 
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
-
 /**
  * @author Guy Korland
  */
@@ -30,8 +26,6 @@ public class FontsControler {
 
 	final private static FontsControler controler = new FontsControler();
 	
-	final private ScopedPreferenceStore store = new ScopedPreferenceStore( new InstanceScope(), "org.eclipse.ui.workbench" );
-	
 	private FontsControler(){}
 
 	public static FontsControler getFontsControler(){
@@ -39,32 +33,22 @@ public class FontsControler {
 	}
 	
 	public synchronized void increase(){
+		Adjuster adj = new Adjuster();
 
-		String font = store.getString(JFaceResources.TEXT_FONT);
-		String[] split = font.split("\\|");
-		BigDecimal fontSize = new BigDecimal(split[2]).add(INCREMENT);
+		BigDecimal fontSize = adj.get().add(INCREMENT);
+		adj.set(fontSize);
 
-		split[2] = fontSize.toString();
-		StringBuilder builder = new StringBuilder(split[0]);
-		for(int i=1; i<split.length ; ++i){
-			builder.append('|').append(split[i]);
-		}
-		store.setValue(JFaceResources.TEXT_FONT, builder.toString());
-
+		adj.persist();
 	}
 
 	public synchronized void decrease(){
-		String font = store.getString(JFaceResources.TEXT_FONT);
-		String[] split = font.split("\\|");
-		BigDecimal fontSize = new BigDecimal(split[2]).subtract(INCREMENT);
+		Adjuster adj = new Adjuster();
+
+		BigDecimal fontSize = adj.get().subtract(INCREMENT);
 		if(fontSize.compareTo(MIN_FONT_SIZE) < 0)
 			fontSize = MIN_FONT_SIZE;
+		adj.set(fontSize);
 
-		split[2] = fontSize.toString();
-		StringBuilder builder = new StringBuilder(split[0]);
-		for(int i=1; i<split.length ; ++i){
-			builder.append('|').append(split[i]);
-		}
-		store.setValue(JFaceResources.TEXT_FONT, builder.toString());
+		adj.persist();
 	}
 }
