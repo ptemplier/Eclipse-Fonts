@@ -6,13 +6,13 @@
          <action
                label="&amp;Increase fonts size"
                icon="icons/increase-font.gif"
-               definitionId="fonts.commands.increase"
+               class="fonts.actions.FontsIncreaseSizeAction"
                toolbarPath="increaseFontsSize"
                id="fonts.actions.FontsIncreaseSizeAction"/>
                 <action
                label="&amp;Decrease fonts size"
                icon="icons/decrease-font.gif"
-               definitionId="fonts.commands.decrease"
+               class="fonts.actions.FontsDecreaseSizeAction"
                toolbarPath="increaseFontsSize"
                id="fonts.actions.FontsDecreaseSizeAction"/>
       </actionSet>
