@@ -24,7 +24,8 @@ public class FontsControler {
 	
 	private static final BigDecimal MIN_FONT_SIZE = BigDecimal.ONE;
 
-	private static final BigDecimal INCREMENT = new BigDecimal("0.1");
+	private static final BigDecimal INCREMENT = new BigDecimal("1");
+	private static final BigDecimal INCREMENT_SLIGHTLY = new BigDecimal("0.1");
 
 	final private static FontsControler controler = new FontsControler();
 	
@@ -43,10 +44,30 @@ public class FontsControler {
 		adj.persist();
 	}
 
+	public synchronized void increaseSlightly(){
+		Adjuster adj = new Adjuster();
+
+		BigDecimal fontSize = adj.get().add(INCREMENT_SLIGHTLY);
+		adj.set(fontSize);
+
+		adj.persist();
+	}
+
 	public synchronized void decrease(){
 		Adjuster adj = new Adjuster();
 
 		BigDecimal fontSize = adj.get().subtract(INCREMENT);
+		if(fontSize.compareTo(MIN_FONT_SIZE) < 0)
+			fontSize = MIN_FONT_SIZE;
+		adj.set(fontSize);
+
+		adj.persist();
+	}
+	
+	public synchronized void decreaseSlightly(){
+		Adjuster adj = new Adjuster();
+
+		BigDecimal fontSize = adj.get().subtract(INCREMENT_SLIGHTLY);
 		if(fontSize.compareTo(MIN_FONT_SIZE) < 0)
 			fontSize = MIN_FONT_SIZE;
 		adj.set(fontSize);
